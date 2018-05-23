@@ -1,0 +1,28 @@
+{
+  "name": "fastimg",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "webpack-dev-server --open --hot --inline"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BenFeiJr/FastImg.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BenFeiJr/FastImg/issues"
+  },
+  "homepage": "https://github.com/BenFeiJr/FastImg#readme",
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.4",
+    "babel-preset-env": "^1.6.1",
+    "webpack": "^4.8.1",
+    "webpack-cli": "^2.1.3",
+    "webpack-dev-server": "^3.1.4"
+  }
+}
