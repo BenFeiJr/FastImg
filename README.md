@@ -1,9 +1,7 @@
 # FastImg
----
 FastImg can help you process image, such as compression, clipping, mix, etc
 
 ## Installation
----
 ### NPM
 `npm install fastimg`    
 
@@ -15,7 +13,6 @@ import FastImg from 'fastimg';
 ```
 
 ## Example
----
 ```js
 // load
 import FastImg from 'fastimg';
@@ -48,7 +45,6 @@ fastImgIns.ready().then(() => {
 ```
 
 ## API
----
 1. new FastImg(img)
 ```js
 /**
@@ -159,10 +155,5 @@ fastImgIns.toDataURL()
 fastImgIns.toBlob()
 ```
 
-## Authors
----
-BenFeiJr
-
 ## License
----
 MIT
