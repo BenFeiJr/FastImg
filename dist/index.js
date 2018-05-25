@@ -9,14 +9,14 @@
  */
 class FastImg {
     /**
-     * 
-     * @param {*} img 接受img element, img file, img src 
+     *
+     * @param {*} img 接受img element, img file, img src
      */
-    constructor(img) {
+    constructor (img) {
         this._init(img);
     }
 
-    _init(img) {
+    _init (img) {
         this._storage = {
             canvas: {
                 element: null,
@@ -27,7 +27,7 @@ class FastImg {
         };
     }
 
-    _getImgSrc(img) {
+    _getImgSrc (img) {
         let imgSrc;
         if (typeof img === 'object') {
             // img element
@@ -53,13 +53,13 @@ class FastImg {
         return imgSrc;
     }
 
-    _getImgType(img) {
+    _getImgType (img) {
         if (typeof img === 'object') {
             // img element
             if (img instanceof HTMLElement) {
                 // img src base64
                 if (img.src.indexOf(';base64') !== -1) {
-                    return img.src.substring("data:".length, img.src.indexOf(";base64"));
+                    return img.src.substring('data:'.length, img.src.indexOf(';base64'));
                 }
                 // img src
                 else {
@@ -74,7 +74,7 @@ class FastImg {
         else if (typeof img === 'string') {
             // img base64
             if (img.indexOf(';base64') !== -1) {
-                return img.substring("data:".length, img.indexOf(";base64"));
+                return img.substring('data:'.length, img.indexOf(';base64'));
             }
             // img src
             else {
@@ -83,17 +83,16 @@ class FastImg {
         }
     }
 
-    _createCanvas(imageEle) {
+    _createCanvas (imageEle) {
         return new Promise((resolve, reject) => {
-            // TODO:
-            const canvas = document.getElementById('testCanvas');//document.createElement('canvas');
+            const canvas = document.createElement('canvas');
             const context = canvas.getContext('2d');
             this._storage.canvas.element = canvas;
             this._storage.canvas.context = context;
-    
+
             const oWidth = imageEle.width;
             const oHeight = imageEle.height;
-    
+
             canvas.width = oWidth;
             canvas.height = oHeight;
             context.drawImage(imageEle, 0, 0, oWidth, oHeight);
@@ -102,24 +101,24 @@ class FastImg {
         });
     }
 
-    _loadImage(inputImg = this._storage.canvas.inputImg) {
+    _loadImage (inputImg = this._storage.canvas.inputImg) {
         return new Promise((resolve, reject) => {
             const newImgElement = new Image();
 
-            newImgElement.onload = () => { resolve(newImgElement); }
+            newImgElement.onload = () => { resolve(newImgElement); };
             newImgElement.src = this._getImgSrc(inputImg);
         });
     }
 
     /**
      * get width and height which radio is same with originSizeRef` width and height
-     * 
-     * @param {number} width 
-     * @param {number} height 
-     * @param {Object} originSizeRef 
+     *
+     * @param {number} width
+     * @param {number} height
+     * @param {Object} originSizeRef
      * @return {Object} { width, height }
      */
-    _getSameRadioSize(width, height, originSizeRef = this._storage.canvas.element) {
+    _getSameRadioSize (width, height, originSizeRef = this._storage.canvas.element) {
         const oWidth = originSizeRef.width;
         const oHeight = originSizeRef.height;
         const hasWidthArg = typeof width !== 'undefined';
@@ -144,10 +143,10 @@ class FastImg {
 
     /**
      * means image has been loaded, it must be called first
-     * 
+     *
      * @return {Promise}
      */
-    ready() {
+    ready () {
         return this._loadImage().then((imageEle) => {
             this._storage.canvas.imageEle = imageEle;
             return this._createCanvas(imageEle);
@@ -156,17 +155,17 @@ class FastImg {
 
     /**
      * clip image
-     * 
+     *
      * @param {number} x clipping start x axis position
-     * @param {number} y clipping start y axis position 
-     * @param {number} width clipping width 
-     * @param {number} height clipping height 
+     * @param {number} y clipping start y axis position
+     * @param {number} width clipping width
+     * @param {number} height clipping height
      * @param {number=} radius clipping radius, default 0
      * @return {Promise}
-     * 
-     * When width and height are equal, and radius is half width, then you get a circle  
+     *
+     * When width and height are equal, and radius is half width, then you get a circle
      */
-    clip(x = 0, y = 0, width, height, radius = 0) {
+    clip (x = 0, y = 0, width, height, radius = 0) {
         return new Promise((resolve, reject) => {
             this.toDataURL().then((url) => {
                 return this._loadImage(url);
@@ -180,7 +179,7 @@ class FastImg {
                 canvas_element.height = height;
                 canvas_context.fillStyle = '#fff';
                 canvas_context.fillRect(0, 0, canvas_element.width, canvas_element.height);
-                
+
                 // 绘制圆角矩形
                 canvas_context.beginPath();
                 canvas_context.arc(0 + radius, 0 + radius, radius, Math.PI, Math.PI * 3 / 2);
@@ -204,25 +203,25 @@ class FastImg {
                 this._storage.canvas.imageEle.height = height;
                 resolve();
             });
-        })
+        });
     }
 
     /**
      * compress image
-     * 
+     *
      * @param {number} quality compress quality, 0 - 1, default 0.5
      * @param {number=} width change compressed image width, default image origin width
      * @param {number=} height change compressed image height, default image origin height
      * @param {string} type change compressed image type, default `image/jpeg`
      * @return {Promise}
-     * 
-     * When type is `image/jpeg`, the image is lossy compression. 
+     *
+     * When type is `image/jpeg`, the image is lossy compression.
      * If you need lossless compression, you can set quality to 1, then reduce width and height.
      */
-    zip(quality = 0.5, width, height, type = 'image/jpeg') {
+    zip (quality = 0.5, width, height, type = 'image/jpeg') {
         const isJpeg = type === 'image/jpeg';
         if (!isJpeg) {
-            console.warn('"image/jpeg" type can zip better');
+            console.warn('`image/jpeg` type can compress better');
         }
 
         const canvas_element = this._storage.canvas.element;
@@ -246,11 +245,11 @@ class FastImg {
 
     /**
      * rotate image
-     * 
+     *
      * @param {number} deg rotation angle
      * @return {Promise}
      */
-    rotate(deg = 0) {
+    rotate (deg = 0) {
         return new Promise((resolve, reject) => {
             const canvas_context = this._storage.canvas.context;
             const canvas_element = this._storage.canvas.element;
@@ -287,14 +286,13 @@ class FastImg {
 
     /**
      * scale image
-     * 
+     *
      * @param {number} x x axis zoom factor
      * @param {number=} y y axis zoom factor, if no y parameter, then y is equal to x by default
      * @return {Promise}
      */
-    scale(x = 1, y = x) {
+    scale (x = 1, y = x) {
         return new Promise((resolve, reject) => {
-
             this.toDataURL().then((url) => {
                 return this._loadImage(url);
             }).then((imageEle) => {
@@ -323,29 +321,28 @@ class FastImg {
 
     /**
      * mix another image to current Image
-     * 
-     * @param {Object|string} img another image 
+     *
+     * @param {Object|string} img another image
      * @param {number=} x x axis position of another image, default 0
      * @param {number=} y y axis position of another image, default 0
-     * @param {number=} width another image width, default image width 
-     * @param {number=} height another image height, default image height 
+     * @param {number=} width another image width, default image width
+     * @param {number=} height another image height, default image height
      * @return {Promise}
      */
-    mix(img, x = 0, y = 0, width, height) {
+    mix (img, x = 0, y = 0, width, height) {
         return this._loadImage(img).then((imageEle) => {
             const sameRadioSize = this._getSameRadioSize(width, height, imageEle);
             this._storage.canvas.context.drawImage(imageEle, x, y, sameRadioSize.width, sameRadioSize.height);
         });
     }
 
-    toDataURL(type, quality = 1) {
+    toDataURL (type, quality = 1) {
         type = type || this._getImgType(this._storage.canvas.imageEle);
-        console.log(type)
         return new Promise((resolve, reject) => {
             resolve(this._storage.canvas.element.toDataURL(type, quality));
         });
     }
-    toBlob(type, quality = 1) {
+    toBlob (type, quality = 1) {
         type = type || this._getImgType(this._storage.canvas.imageEle);
 
         return new Promise((resolve, reject) => {
