@@ -1,4 +1,4 @@
-import FastImg from './FastImg';
+import FastImg from '../src/FastImg';
 
 const inputImg = document.getElementById('input');
 const outputImg = document.getElementById('output');
@@ -25,5 +25,5 @@ document.getElementById('download').onclick = () => {
     const link = document.createElement('a');
     link.download = 'aaa.jpeg';
     link.href = outputImg.src;
-    link.click();    
+    link.click();
 };
