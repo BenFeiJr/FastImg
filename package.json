@@ -1,6 +1,6 @@
 {
   "name": "fastimg",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "FastImg can help you process image, such as compression, clipping, mix, etc",
   "main": "./dist/index.js",
   "scripts": {
