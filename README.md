@@ -3,7 +3,7 @@ FastImg can help you process image, such as compression, clipping, mix, etc
 
 ## Installation
 ### NPM
-`npm install fastimg`    
+`npm install fastimg --save`    
 
 
 Then load
