@@ -1,6 +1,7 @@
-import FastImg from '../src/FastImg';
+import FastImg from '../src/FastImg.js';
 
 const inputImg = document.getElementById('input');
+const inputImgFile = document.getElementById('file');
 const outputImg = document.getElementById('output');
 
 const fastImgIns = new FastImg(inputImg.src);
@@ -16,9 +17,11 @@ fastImgIns.ready().then((res) => {
 }).then((res) => {
     return fastImgIns.scale(5);
 }).then((res) => {
-    return fastImgIns.toDataURL();
+    return fastImgIns.toJpeg();
 }).then((res) => {
     outputImg.src = res;
+}).catch((err) => {
+    console.log(err)
 });
 
 document.getElementById('download').onclick = () => {
