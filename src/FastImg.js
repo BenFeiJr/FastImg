@@ -3,10 +3,6 @@
  * @author BenFeiJr
  */
 
-/**
- * img一系列api
- * 包括，压缩，剪裁
- */
 class FastImg {
     /**
      *
@@ -28,29 +24,32 @@ class FastImg {
     }
 
     _getImgSrc (img) {
-        let imgSrc;
-        if (typeof img === 'object') {
-            // img element
-            if (img instanceof HTMLElement) {
-                imgSrc = img.src;
+        return new Promise((resolve, reject) => {
+            if (typeof img === 'object') {
+                // img element
+                if (img instanceof HTMLElement) {
+                    resolve(img.src);
+                }
+                // img file
+                else if (img.type && img.type.indexOf('image') !== -1) {
+                    const reader = new FileReader();
+                    reader.onload = (event) => {
+                        resolve(event.target.result);
+                    };
+                    reader.readAsDataURL(img);
+                }
+                else {
+                    reject('not legal img, img can be img element, img file or img link href');
+                }
             }
-            // img file
-            else if (img.type && img.type.indexOf('image') !== -1) {
-                imgSrc = (new FileReader()).readAsDataURL(img);
+            // img src or base64
+            else if (typeof img === 'string') {
+                resolve(img);
             }
             else {
-                throw new Error();
+                reject('not legal img, img can be img element, img file or img link href');
             }
-        }
-        // img src or base64
-        else if (typeof img === 'string') {
-            imgSrc = img;
-        }
-        else {
-            throw new Error();
-        }
-
-        return imgSrc;
+        });
     }
 
     _getImgType (img) {
@@ -106,7 +105,9 @@ class FastImg {
             const newImgElement = new Image();
 
             newImgElement.onload = () => { resolve(newImgElement); };
-            newImgElement.src = this._getImgSrc(inputImg);
+            this._getImgSrc(inputImg).then((imgSrc) => {
+                newImgElement.src = imgSrc;
+            });
         });
     }
 
@@ -167,6 +168,10 @@ class FastImg {
      */
     clip (x = 0, y = 0, width, height, radius = 0) {
         return new Promise((resolve, reject) => {
+            if (typeof width === 'undefined' || typeof height === 'undefined') {
+                reject('Cannot omit `width` and `height` parameters');
+            }
+
             this.toDataURL().then((url) => {
                 return this._loadImage(url);
             }).then((imageEle) => {
@@ -212,7 +217,7 @@ class FastImg {
      * @param {number} quality compress quality, 0 - 1, default 0.5
      * @param {number=} width change compressed image width, default image origin width
      * @param {number=} height change compressed image height, default image origin height
-     * @param {string} type change compressed image type, default `image/jpeg`
+     * @param {string=} type change compressed image type, default `image/jpeg`
      * @return {Promise}
      *
      * When type is `image/jpeg`, the image is lossy compression.
@@ -350,6 +355,12 @@ class FastImg {
                 resolve(blob);
             }, type, quality);
         });
+    }
+    toPng () {
+        return this.toDataURL('image/png');
+    }
+    toJpeg () {
+        return this.toDataURL('image/jpeg');
     }
 }
 
