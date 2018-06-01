@@ -40,6 +40,8 @@ fastImgIns.ready().then(() => {
     return fastImgIns.toDataURL();
 }).then((base64Url) => {
     console.log(base64Url);
+}).catch((err) => {
+    console.log(err)
 });
 
 ```
@@ -93,7 +95,7 @@ fastImgIns.clip(x, y, width, height, radius)
  * @param {number} quality compress quality, 0 - 1, default 0.5
  * @param {number=} width change compressed image width, default image origin width
  * @param {number=} height change compressed image height, default image origin height
- * @param {string} type change compressed image type, default `image/jpeg`
+ * @param {string=} type change compressed image type, default `image/jpeg`
  * @return {Promise}
  * 
  * When type is `image/jpeg`, the image is lossy compression. 
@@ -153,6 +155,18 @@ fastImgIns.toDataURL()
 9. toBlob()
 ```js  
 fastImgIns.toBlob()
+```
+
+
+10. toPng()
+```js  
+fastImgIns.toPng()
+```
+
+
+11. toJpeg()
+```js  
+fastImgIns.toJpeg()
 ```
 
 ## License

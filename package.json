@@ -2,10 +2,10 @@
   "name": "fastimg",
   "version": "0.1.2",
   "description": "FastImg can help you process image, such as compression, clipping, mix, etc",
-  "main": "./dist/index.js",
+  "main": "./dist/FastImg.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "webpack-dev-server --open --hot --inline"
+    "dev": "webpack-dev-server --config webpack.dev.config.js --open --hot --inline",
+    "build": "webpack --config webpack.prod.config.js"
   },
   "repository": {
     "type": "git",
